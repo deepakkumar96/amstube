@@ -1,0 +1,8 @@
+{
+    "elements": {},
+    "attributes": {
+        "th:each": {
+            "context": "div"
+        }
+    }
+}

@@ -8,7 +8,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    public static String location = "/home/deepak/workspace/amstube/src/main/resources/uploads";
+    public static String location = "uploads";
 
     public String getLocation() {
         return location;

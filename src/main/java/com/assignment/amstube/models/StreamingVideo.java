@@ -18,7 +18,23 @@ public class StreamingVideo {
 	private String streamingEndpoint;
 	private boolean isStreamable;
 	private boolean isActive;
+        private int view;
+        private String author;
+        private String category;
 	
+        public StreamingVideo(String id, String name){
+            this.id = id;
+            this.title = name;
+            thumbnail = ThumbnailGen.random();
+            this.isActive = true;
+            this.isStreamable = true;
+            this.category = "videos";
+        }
+        
+         public StreamingVideo(){
+             this("", "");
+         }
+        
 	@Override
 	public String toString(){
 		return title + " -> " + streamingEndpoint;
