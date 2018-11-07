@@ -3,6 +3,7 @@ package com.assignment.amstube;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +21,9 @@ public class AmstubeApplication implements CommandLineRunner{
 	
 	@Autowired
 	StreamingVideoRepo repository;
-	
+	@Value("${connectionString}")
+	private String connectionString;
+
 	@Override
 	public void run(String... args) throws Exception {
 		  final StreamingVideo vid = new StreamingVideo();
@@ -37,6 +40,6 @@ public class AmstubeApplication implements CommandLineRunner{
 	      final StreamingVideo result = repository.findById(vid.getId()).get();
 	      
 	      // Display the results of the database record retrieval.
-	      System.out.printf("DB : \n\n%s\n\n",result.toString());
+	      System.out.printf("DB : \n\n%s\n\n",result.toString() + " : " + connectionString);
 	   }
 }

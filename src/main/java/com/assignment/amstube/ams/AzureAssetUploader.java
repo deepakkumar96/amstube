@@ -87,7 +87,12 @@ public class AzureAssetUploader
             // Create the Streaming Origin Locator
             String url = getStreamingOriginLocator(encodedAsset);
             String videoname = uploadAsset.getName();
-            StreamingVideo vid = new StreamingVideo(uploadAsset.getId(), videoname.substring(videoname.lastIndexOf("/")+1));
+            int dotLen = videoname.lastIndexOf(".");
+            int slashLen = videoname.lastIndexOf("/") ;
+            System.err.println(dotLen + ", " + slashLen);
+            int len = dotLen <= 0? videoname.length() - slashLen: dotLen - slashLen;
+            System.err.println(dotLen + ", " + slashLen + " , " + len);
+            StreamingVideo vid = new StreamingVideo(uploadAsset.getId(), videoname.substring(slashLen+1, len));
             try{
                 vid.setType(videoname.substring(videoname.lastIndexOf("."+1)));
             }catch(Exception ex){
