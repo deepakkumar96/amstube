@@ -30,7 +30,7 @@ public class IndexingController {
     
 
     @GetMapping("/analytics_caption")
-    public String listUploadedFiles(Model model) throws IOException {
+    public String indexCaptionGet(Model model) throws IOException {
 
         System.out.println("CAPTION");
         return "index/indexCaption";
@@ -39,7 +39,7 @@ public class IndexingController {
 
 
     @PostMapping("/analytics_caption")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    public String indexCaptionPost(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 
         String filename = storageService.store(file);
@@ -50,6 +50,41 @@ public class IndexingController {
         System.out.println("Indexed : " + indxRes);
         return "redirect:/";
     }
+
+
+    @GetMapping("/analytics_thumbnail")
+    public String indexThumbnailGet(Model model) throws IOException {
+        return "index/indexThumbnail";
+    }
+
+
+
+    @PostMapping("/analytics_thumbnail")
+    public String indexThumbnailPost(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+
+        String filename = storageService.store(file);
+        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Video Thumbnails");
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/analytics_ocr")
+    public String indexOcrGet(Model model) throws IOException {
+        return "index/indexOcr";
+    }
+
+
+
+    @PostMapping("/analytics_ocr")
+    public String indexOcrPost(@RequestParam("file") MultipartFile file,
+                                     RedirectAttributes redirectAttributes) {
+
+        String filename = storageService.store(file);
+        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media OCR");
+        return "redirect:/";
+    }
+
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {

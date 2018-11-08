@@ -85,8 +85,8 @@ public class VideoIndexer implements Indexer {
 
             // Create indexing task configuration based on parameters
             String indexerTaskPresetTemplate = new String(Files.readAllBytes(
-                    Paths.get(new URL(VideoIndexer.class.getClassLoader().getResource(""), indexerTaskPresetTemplateFileName).toURI())));
-            String taskConfiguration = String.format(indexerTaskPresetTemplate, title, description, language, captionFormats, generateAIB, generateKeywords);
+                    Paths.get(new File(indexerTaskPresetTemplateFileName).toURI())));
+            String taskConfiguration = (!indexerProcessorName.equals("Azure Media Indexer"))?indexerTaskPresetTemplate:String.format(indexerTaskPresetTemplate, title, description, language, captionFormats, generateAIB, generateKeywords);
             System.out.println("LOADing Preset: " + taskConfiguration);
             // Run indexing job to generate output asset
             AssetInfo outputAsset = runIndexingJob(sourceAsset, taskConfiguration);
@@ -114,6 +114,7 @@ public class VideoIndexer implements Indexer {
     private String getPresetTemplatePath(String service) {
         switch(service){
             case "Azure Media Indexer": return "indexingTemplates/indexerTaskPresetTemplate.xml";
+            case "Azure Media OCR": return "indexingTemplates/videoOcrTaskPresetTemplate.xml";
         }
         return "indexingTemplates/indexerTaskPresetTemplate.xml";
     }
