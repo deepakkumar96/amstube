@@ -1,6 +1,7 @@
-package com.assignment.amstube;
+package com.assignment.amstube.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,10 @@ public class StreamController {
  
 	@Autowired
 	private StreamingVideoRepo repository;
-	
-	@GetMapping("/play")
+
+
+
+    @GetMapping("/play")
     public String play(@RequestParam("id") String id, ModelMap model) {
         //ModelAndView mv = new ModelAndView();
 		repository.findById(id).ifPresent(e -> model.addAttribute("video", e));

@@ -1,0 +1,10 @@
+<rss version="2.0"  xmlns:mavis="http://www.microsoft.com/dtds/mavis/">
+<channel>
+  <mavis:keywords>inverse</mavis:keywords>
+  <items>
+    <mavis:keyword Content="inverse" Count="1" AvgConfidence="0.85">
+      <mavis:keyworddetail Confidence="0.85" Offset="4.61" />
+    </mavis:keyword>
+  </items>
+</channel>
+</rss>

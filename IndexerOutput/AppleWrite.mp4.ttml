@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tt xml:lang="en-us" xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" xmlns:ttm="http://www.w3.org/ns/ttml#metadata">
+  <head>
+    <metadata>
+      <ttm:title>Media.wvx.aib</ttm:title>
+      <ttm:copyright>Copyright (c) 2013 Microsoft Corporation.  All rights reserved.</ttm:copyright>
+    </metadata>
+    <styling>
+      <style xml:id="Style1" tts:fontFamily="proportionalSansSerif" tts:fontSize="0.8c" tts:textAlign="center" tts:color="white" />
+    </styling>
+    <layout>
+      <region style="Style1" xml:id="CaptionArea" tts:origin="0c 12.6c" tts:extent="32c 2.4c" tts:backgroundColor="rgba(0,0,0,160)" tts:displayAlign="center" tts:padding="0.3c 0.5c" />
+    </layout>
+    <recognizability>0.850</recognizability>
+  </head>
+  <body region="CaptionArea">
+    <div>
+      <p begin="00:00:00.080" end="00:00:04.680">How to magically convert your hand-written notes to type then share than what</p>
+      <p begin="00:00:04.680" end="00:00:09.010">you'll need apple pencil and...pad pro good notes</p>
+      <p begin="00:00:09.010" end="00:00:14.540">and a cactus ...start by opening up the good</p>
+      <p begin="00:00:14.540" end="00:00:19.820">no cap open your notebook ...the lasso...</p>
+      <p begin="00:00:19.820" end="00:00:21.610">...draw circle around your...</p>
+      <p begin="00:00:23.030" end="00:00:26.410">...for the real magic cap this screen and</p>
+      <p begin="00:00:26.410" end="00:00:27.420">...convert.</p>
+      <p begin="00:00:29.470" end="00:00:33.140">Repair just have to share icon intellect...</p>
+      <p begin="00:00:34.380" end="00:00:39.080">Fill it out and, hit send.</p>
+      <p begin="00:00:39.080" end="00:00:54.590">And, that's how to magically convert your hand-written notes the...that.</p>
+
+    </div>
+  </body>
+</tt>

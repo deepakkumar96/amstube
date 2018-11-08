@@ -12,7 +12,7 @@ import com.assignment.amstube.models.StreamingVideo;
 import com.assignment.amstube.repo.StreamingVideoRepo;
 
 @SpringBootApplication
-public class AmstubeApplication implements CommandLineRunner{
+public class AmstubeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AmstubeApplication.class, args);
@@ -21,10 +21,10 @@ public class AmstubeApplication implements CommandLineRunner{
 	
 	@Autowired
 	StreamingVideoRepo repository;
-	@Value("${connectionString}")
+
 	private String connectionString;
 
-	@Override
+	//@Override
 	public void run(String... args) throws Exception {
 		  final StreamingVideo vid = new StreamingVideo();
 		  vid.setTitle("JumanJI");

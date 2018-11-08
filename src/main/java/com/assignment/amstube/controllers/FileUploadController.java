@@ -1,4 +1,4 @@
-package com.assignment.amstube;
+package com.assignment.amstube.controllers;
 
 import java.io.IOException;
 import java.util.stream.Collectors;

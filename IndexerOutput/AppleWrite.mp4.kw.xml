@@ -1,0 +1,25 @@
+<rss version="2.0"  xmlns:mavis="http://www.microsoft.com/dtds/mavis/">
+<channel>
+  <mavis:keywords>real magic cap,hand-written notes,apple pencil,share icon,notebook,circle</mavis:keywords>
+  <items>
+    <mavis:keyword Content="real magic cap" Count="1" AvgConfidence="0.93">
+      <mavis:keyworddetail Confidence="0.93" Offset="24" />
+    </mavis:keyword>
+    <mavis:keyword Content="hand-written notes" Count="1" AvgConfidence="0.87">
+      <mavis:keyworddetail Confidence="0.87" Offset="1.72" />
+    </mavis:keyword>
+    <mavis:keyword Content="apple pencil" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="5.51" />
+    </mavis:keyword>
+    <mavis:keyword Content="share icon" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="30.65" />
+    </mavis:keyword>
+    <mavis:keyword Content="notebook" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="16.02" />
+    </mavis:keyword>
+    <mavis:keyword Content="circle" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="20.31" />
+    </mavis:keyword>
+  </items>
+</channel>
+</rss>
