@@ -34,7 +34,7 @@ public class FileUploadController {
 	
     private final StorageService storageService = new FileSystemStorageService();;
 
-    
+
 
     @GetMapping("/upload")
     public String listUploadedFiles(Model model) throws IOException {
@@ -47,6 +47,7 @@ public class FileUploadController {
         return "upload";
     }
 
+    /*
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -54,7 +55,7 @@ public class FileUploadController {
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
+    }*/
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,

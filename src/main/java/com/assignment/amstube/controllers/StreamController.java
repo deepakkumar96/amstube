@@ -34,5 +34,12 @@ public class StreamController {
         
         return "index";
     }
+
+    @GetMapping("/movies")
+    public String movies(ModelMap model) {
+        //model.addAttribute("videos", repository.findAll());
+
+        return "movies";
+    }
 	
 }

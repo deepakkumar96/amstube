@@ -56,7 +56,10 @@ public class VideoIndexer implements Indexer {
         mediaFileName = filePath;
         indexerProcessorName = service;
         indexerTaskPresetTemplateFileName = getPresetTemplatePath(service);
-        System.out.println("Preset : "+indexerTaskPresetTemplateFileName);
+        destinationPath = getDestinationPath(service);
+
+        System.out.println("Preset : "+indexerTaskPresetTemplateFileName +
+                           "Destination : " + destinationPath);
 
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 
@@ -117,6 +120,18 @@ public class VideoIndexer implements Indexer {
             case "Azure Media OCR": return "indexingTemplates/videoOcrTaskPresetTemplate.xml";
         }
         return "indexingTemplates/indexerTaskPresetTemplate.xml";
+    }
+
+    private String getDestinationPath(String service){
+        String dir = "";
+        switch(service){
+            case "Azure Media Indexer":
+                        dir="/caption"; break;
+            case "Azure Media OCR":
+                        dir="/ocr"; break;
+
+        }
+        return "IndexerOutput" + dir;
     }
 
     // Upload a media file to your Media Services account.
