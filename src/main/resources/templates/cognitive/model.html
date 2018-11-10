@@ -284,10 +284,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
     <div class="drop-navigation drop-navigation">
         <ul class="nav nav-sidebar">
-            <li><a href="index.html" class="home-icon"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-            <li><a href="shows.html" class="user-icon"><span class="glyphicon glyphicon-home glyphicon-blackboard" aria-hidden="true"></span>TV Shows</a></li>
-            <li><a href="history.html" class="sub-icon"><span class="glyphicon glyphicon-home glyphicon-hourglass" aria-hidden="true"></span>History</a></li>
-            <li class="active"><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Movies<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
+            <li class="active"><a href="index.html" class="home-icon"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Movies<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
             <ul class="cl-effect-2">
                 <li><a href="movies.html">English</a></li>
                 <li><a href="movies.html">Chinese</a></li>
@@ -301,23 +299,60 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							});
 							});
 						</script>
-            <li><a href="#" class="menu"><span class="glyphicon glyphicon-film glyphicon-king" aria-hidden="true"></span>Sports<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
-            <ul class="cl-effect-1">
-                <li><a href="sports.html">Football</a></li>
-                <li><a href="sports.html">Cricket</a></li>
-                <li><a href="sports.html">Tennis</a></li>
-                <li><a href="sports.html">Shattil</a></li>
+
+
+            <!-- Indexing -->
+            <li><a href="history.html" class="sub-icon"><span class="glyphicon glyphicon-home glyphicon-hourglass" aria-hidden="true"></span>Live Channels</a></li>
+
+            <li><a href="#" class="menu-index"><span class="glyphicon glyphicon-film glyphicon-king" aria-hidden="true"></span>Analytics<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
+            <ul class="cl-effect-index">
+                <li><a href="/analytics_caption">Caption Service</a></li>
+                <li><a href="/analytics_face">Face and Emotion Detection</a>
+                </li><li><a href="/analytics_motion">Motion Detcetion</a></li>
+                <li><a href="/analytics_thumbnail">Thumbnail Genereator</a></li>
+                <li><a href="/analytics_hyperlapse">Hyperlapse</a></li>
+                <li><a href="/analytics_content">Content Analytics</a></li>
+
+                <li><a href="/analytics_ocr">Video ORC</a></li>
             </ul>
             <!-- script-for-menu -->
             <script>
-							$( "li a.menu" ).click(function() {
-							$( "ul.cl-effect-1" ).slideToggle( 300, function() {
+							$( "li a.menu-index" ).click(function() {
+							$( "ul.cl-effect-index" ).slideToggle( 300, function() {
 							// Animation complete.
 							});
+
+							});
+							$( "ul.cl-effect-index" ).slideToggle( 300, function() {
+							// Animation complete.
 							});
 						</script>
-            <li><a href="movies.html" class="song-icon"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>Songs</a></li>
-            <li><a href="news.html" class="news-icon"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>News</a></li>
+
+
+            <li><a href="#" class="menu-image"><span class="glyphicon glyphicon-film glyphicon-king" aria-hidden="true"></span>Computer Vision<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
+
+            <ul class="cl-effect-image">
+                <li><a href="/analyze">Analyze</a></li>
+                <li><a href="/ocr">Image OCR</a>
+                </li><li><a href="/model">Object Dectection</a></li>
+                <li><a href="/thumbnail">Thumbnail</a></li>
+                <li><a href="/discribe">Describe</a></li>
+                <li><a href="/face">Analyze Face</a></li>
+            </ul>
+            <!-- script-for-menu -->
+            <script>
+							$( "li a.menu-image" ).click(function() {
+							$( "ul.cl-effect-image" ).slideToggle( 300, function() {
+							// Animation complete.
+							});
+
+							});
+							$( "ul.cl-effect-image" ).slideToggle( 300, function() {
+							// Animation complete.
+							});
+						</script>
+
+
         </ul>
         <!-- script-for-menu -->
         <script>

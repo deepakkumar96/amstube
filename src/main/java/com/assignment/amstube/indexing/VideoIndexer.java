@@ -154,7 +154,7 @@ public class VideoIndexer implements Indexer {
             case "Azure Media Face Detector":
                         dir="/face"; break;
             case "Azure Media Emotion Detector":
-                        dir="/emotion"; break;
+                        dir="/face"; break;
             case "Azure Media Motion Detector":
                         dir="/motion"; break;
             case "Azure Media Content Moderator":

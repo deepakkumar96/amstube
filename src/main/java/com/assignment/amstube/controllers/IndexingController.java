@@ -132,9 +132,9 @@ public class IndexingController {
 
     @GetMapping("/analytics_face")
     public String indexFaceGet(Model model) throws IOException {
-        model.addAttribute("files", getAllFiles("thumbnail"));
-        model.addAttribute("service_url", "analytics_thumbnail");
-        return "index/indexFace";
+        model.addAttribute("files", getAllFiles("face"));
+        model.addAttribute("service_url", "analytics_face");
+        return "index/index_files";
     }
 
     @PostMapping("/analytics_face")
@@ -152,9 +152,9 @@ public class IndexingController {
 
     @GetMapping("/analytics_motion")
     public String indexMotionGet(Model model) throws IOException {
-        model.addAttribute("files", getAllFiles("thumbnail"));
-        model.addAttribute("service_url", "analytics_thumbnail");
-        return "index/indexMotion";
+        model.addAttribute("files", getAllFiles("motion"));
+        model.addAttribute("service_url", "analytics_motion");
+        return "index/index_files";
     }
 
     @PostMapping("/analytics_motion")
