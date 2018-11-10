@@ -51,8 +51,8 @@ public final class Program {
 
     // Media Services account credentials configuration
     private static String tenant = "d019bba4-a1af-4540-9b28-260c46d770a5";
-    private static String clientId = "72e751af-b8b2-4a36-a46c-f73fab8f91f9";
-    private static String clientKey = "XIdihi+WmfGQ9SPwnEgfgnjWjao++iYpR/XN9Sb5C9w=";
+    private static String clientId = "265814ac-39bd-49e9-883d-7bdfe1d9a13f";
+    private static String clientKey = "DEnLdIZi6tRz3RzlZwe9S4ibYNe+kK9qzFMCSG4eWE4=";
     private static String restApiEndpoint = "https://mediatest.restv2.centralindia.media.azure.net/api/";
     // Input file
     private static String mediaFileName = "AppleWrite.mp4";

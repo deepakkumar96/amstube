@@ -39,7 +39,7 @@ public class StreamController {
     public String movies(ModelMap model) {
         //model.addAttribute("videos", repository.findAll());
 
-        return "movies";
+        return "index/movies";
     }
 	
 }

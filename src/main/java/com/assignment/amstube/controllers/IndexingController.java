@@ -32,13 +32,20 @@ public class IndexingController {
 	
     private final StorageService storageService = new FileSystemStorageService();
 
-    
+
+
+    @GetMapping("/get_indexing_logs")
+    @ResponseBody
+    public String getIndexingLog(Model model) throws IOException {
+        System.out.println("LOG API CALLED");
+        return IndexingLogQueue.INSTANCE.dequeue();
+    }
 
     @GetMapping("/analytics_caption")
     public String indexCaptionGet(Model model) throws IOException {
-
-        System.out.println("CAPTION");
-        return "index/indexCaption";
+        model.addAttribute("files", getAllFiles("caption"));
+        model.addAttribute("service_url", "analytics_caption");
+        return "index/index_files";
     }
 
 
@@ -60,7 +67,8 @@ public class IndexingController {
     @GetMapping("/analytics_thumbnail")
     public String indexThumbnailGet(Model model) throws IOException {
         model.addAttribute("files", getAllFiles("thumbnail"));
-        return "index/indexOcr2";
+        model.addAttribute("service_url", "analytics_thumbnail");
+        return "index/index_files";
     }
 
 
@@ -78,6 +86,7 @@ public class IndexingController {
     @GetMapping("/analytics_ocr")
     public String indexOcrGet(Model model) throws IOException {
         model.addAttribute("files", getAllFiles("ocr"));
+        model.addAttribute("service_url", "analytics_ocr");
         return "index/index_files";
     }
 
@@ -95,7 +104,7 @@ public class IndexingController {
     @PostMapping("/analytics_ocr")
     public String indexOcrPost(@RequestParam("file") MultipartFile file,
                                      RedirectAttributes redirectAttributes) {
-
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
         String filename = storageService.store(file);
         IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media OCR");
         return "redirect:/";
@@ -105,13 +114,15 @@ public class IndexingController {
 
     @GetMapping("/analytics_hyperlapse")
     public String indexHyperlapseGet(Model model) throws IOException {
-        return "index/indexHyperlpase";
+        model.addAttribute("files", getAllFiles("hyperlapse"));
+        model.addAttribute("service_url", "analytics_hyperlapse");
+        return "index/index_files";
     }
 
     @PostMapping("/analytics_hyperlapse")
     public String indexHyperlapsePost(@RequestParam("file") MultipartFile file,
                                RedirectAttributes redirectAttributes) {
-
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
         String filename = storageService.store(file);
         IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Hyperlapse");
         return "redirect:/";
@@ -121,6 +132,8 @@ public class IndexingController {
 
     @GetMapping("/analytics_face")
     public String indexFaceGet(Model model) throws IOException {
+        model.addAttribute("files", getAllFiles("thumbnail"));
+        model.addAttribute("service_url", "analytics_thumbnail");
         return "index/indexFace";
     }
 
@@ -138,6 +151,8 @@ public class IndexingController {
 
     @GetMapping("/analytics_motion")
     public String indexMotionGet(Model model) throws IOException {
+        model.addAttribute("files", getAllFiles("thumbnail"));
+        model.addAttribute("service_url", "analytics_thumbnail");
         return "index/indexMotion";
     }
 

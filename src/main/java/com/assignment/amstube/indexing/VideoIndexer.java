@@ -27,8 +27,8 @@ public class VideoIndexer implements Indexer {
 
     // Media Services account credentials configuration
     private  String tenant = "d019bba4-a1af-4540-9b28-260c46d770a5";
-    private  String clientId = "72e751af-b8b2-4a36-a46c-f73fab8f91f9";
-    private  String clientKey = "XIdihi+WmfGQ9SPwnEgfgnjWjao++iYpR/XN9Sb5C9w=";
+    private  String clientId = "265814ac-39bd-49e9-883d-7bdfe1d9a13f";
+    private  String clientKey = "DEnLdIZi6tRz3RzlZwe9S4ibYNe+kK9qzFMCSG4eWE4=";
     private  String restApiEndpoint = "https://mediatest.restv2.centralindia.media.azure.net/api/";
     // Input file
     private  String mediaFileName = "videoplayback2.mp4";
@@ -58,8 +58,13 @@ public class VideoIndexer implements Indexer {
         indexerTaskPresetTemplateFileName = getPresetTemplatePath(service);
         destinationPath = getDestinationPath(service);
 
+        //checking emotion service
+        if(service.equals("Azure Media Emotion Detector"))
+            indexerProcessorName = "Azure Media Face Detector";
+
         System.out.println("Preset : "+indexerTaskPresetTemplateFileName +
-                           "Destination : " + destinationPath);
+                           "\nDestination : " + destinationPath+
+                           "\nservice" + indexerProcessorName);
 
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 
@@ -85,6 +90,7 @@ public class VideoIndexer implements Indexer {
             // Upload a local file to an Asset
             AssetInfo sourceAsset = uploadFileAndCreateAsset(mediaFileName);
             System.out.println("Uploaded AssSet Id: " + sourceAsset.getId());
+            IndexingLogQueue.INSTANCE.enqueue("Uploaded AssSet Id: " + sourceAsset.getId());
 
             // Create indexing task configuration based on parameters
             String indexerTaskPresetTemplate = new String(Files.readAllBytes(
@@ -94,18 +100,22 @@ public class VideoIndexer implements Indexer {
             // Run indexing job to generate output asset
             AssetInfo outputAsset = runIndexingJob(sourceAsset, taskConfiguration);
             System.out.println("Output Asset Id: " + outputAsset.getId());
+            IndexingLogQueue.INSTANCE.enqueue("Output Asset Id: " + outputAsset.getId());
 
             // Download output asset files
             downloadAssetFiles(outputAsset, destinationPath);
 
             // Done
             System.out.println("Sample completed!");
+            IndexingLogQueue.INSTANCE.enqueue("Completed");
             return IndexingResult.SUCESSFUL;
         } catch (ServiceException se) {
             System.out.println("ServiceException encountered.");
+            IndexingLogQueue.INSTANCE.enqueue("Error");
             System.out.println(se.toString());
         } catch (Exception e) {
             System.out.println("Exception encountered.");
+            IndexingLogQueue.INSTANCE.enqueue("Error");
             System.out.println(e.toString());
         } finally {
             executorService.shutdown();
@@ -118,6 +128,14 @@ public class VideoIndexer implements Indexer {
         switch(service){
             case "Azure Media Indexer": return "indexingTemplates/indexerTaskPresetTemplate.xml";
             case "Azure Media OCR": return "indexingTemplates/videoOcrTaskPresetTemplate.xml";
+            case "Azure Media Video Thumbnails": return "indexingTemplates/videoThumbnailTaskPresetTemplate.xml";
+            case "Azure Media Hyperlapse": return "indexingTemplates/videoHyperlapseTaskPresetTemplate.xml";
+            case "Azure Media Face Detector": return "indexingTemplates/videoFaceTaskPresetTemplate.xml";
+            case "Azure Media Emotion Detector": return "indexingTemplates/videoEmotionTaskPresetTemplate.xml";
+            case "Azure Media Motion": return "indexingTemplates/videoMotionTaskPresetTemplate.xml";
+            case "Azure Media Content Moderator": return "indexingTemplates/videoContentModeratorTaskPresetTemplate.xml";
+
+
         }
         return "indexingTemplates/indexerTaskPresetTemplate.xml";
     }
@@ -129,7 +147,18 @@ public class VideoIndexer implements Indexer {
                         dir="/caption"; break;
             case "Azure Media OCR":
                         dir="/ocr"; break;
-
+            case "Azure Media Video Thumbnails":
+                        dir="/thumbnail"; break;
+            case "Azure Media Hyperlapse":
+                        dir="/hyperlapse"; break;
+            case "Azure Media Face Detector":
+                        dir="/face"; break;
+            case "Azure Media Emotion Detector":
+                        dir="/emotion"; break;
+            case "Azure Media Motion":
+                        dir="/motion"; break;
+            case "Azure Media Content Moderator":
+                        dir="/content"; break;
         }
         return "IndexerOutput" + dir;
     }
@@ -147,7 +176,7 @@ public class VideoIndexer implements Indexer {
         // Create an empty Asset
         asset = mediaService.create(Asset.create().setName(String.format("Media File %s", fileName)));
         System.out.println("Asset created " + asset.getName());
-
+        IndexingLogQueue.INSTANCE.enqueue("Asset created " + asset.getName());
         // Create an AccessPolicy that provides Write access for 15 minutes
         uploadAccessPolicy = mediaService
                 .create(AccessPolicy.create("uploadAccessPolicy", 15.0, EnumSet.of(AccessPolicyPermission.WRITE)));
@@ -164,13 +193,15 @@ public class VideoIndexer implements Indexer {
                 new File("uploads/"+fileName));
 
         System.out.println("Uploading " + fileName);
-
+        IndexingLogQueue.INSTANCE.enqueue("Uploading " + fileName);
         // Upload the local file to the asset
         uploader.createBlockBlob(fileName, input);
 
         // Inform Media Services about the uploaded files
         mediaService.action(AssetFile.createFileInfos(asset.getId()));
         System.out.println("Uploaded Asset File " + fileName);
+        IndexingLogQueue.INSTANCE.enqueue("Uploaded Asset File " + fileName);
+
 
         // Delete the SAS Locator (and Access Policy) for the Asset since we are done uploading files
         mediaService.delete(Locator.delete(uploadLocator.getId()));
@@ -214,6 +245,7 @@ public class VideoIndexer implements Indexer {
 
         String jobId = job.getId();
         System.out.println("Created Job with Id: " + jobId);
+        IndexingLogQueue.INSTANCE.enqueue("Created Job with Id: " + jobId);
 
         // Check to see if the Job has completed
         JobState result = checkJobStatus(jobId);
@@ -226,12 +258,13 @@ public class VideoIndexer implements Indexer {
 
         System.out.println("Job Finished!");
 
+        IndexingLogQueue.INSTANCE.enqueue("Job Finished!");
         // Get the output Asset
         ListResult<AssetInfo> outputAssets = mediaService.list(Asset.list(job.getOutputAssetsLink()));
         AssetInfo outputAsset = outputAssets.get(0);
 
         System.out.println("Output asset: " + outputAsset.getName());
-
+        IndexingLogQueue.INSTANCE.enqueue("Output asset: " + outputAsset.getName());
         return outputAsset;
     }
 
@@ -245,9 +278,12 @@ public class VideoIndexer implements Indexer {
             // Query the updated Job state
             jobState = mediaService.get(Job.get(jobId)).getState();
             System.out.println("Job state: " + jobState);
+            IndexingLogQueue.INSTANCE.enqueue(jobState.toString());
 
             if (jobState == JobState.Finished || jobState == JobState.Canceled || jobState == JobState.Error) {
                 done = true;
+                IndexingLogQueue.INSTANCE.enqueue("DONE");
+
             }
         }
 
