@@ -132,7 +132,7 @@ public class VideoIndexer implements Indexer {
             case "Azure Media Hyperlapse": return "indexingTemplates/videoHyperlapseTaskPresetTemplate.xml";
             case "Azure Media Face Detector": return "indexingTemplates/videoFaceTaskPresetTemplate.xml";
             case "Azure Media Emotion Detector": return "indexingTemplates/videoEmotionTaskPresetTemplate.xml";
-            case "Azure Media Motion": return "indexingTemplates/videoMotionTaskPresetTemplate.xml";
+            case "Azure Media Motion Detector": return "indexingTemplates/videoMotionTaskPresetTemplate.xml";
             case "Azure Media Content Moderator": return "indexingTemplates/videoContentModeratorTaskPresetTemplate.xml";
 
 
@@ -155,7 +155,7 @@ public class VideoIndexer implements Indexer {
                         dir="/face"; break;
             case "Azure Media Emotion Detector":
                         dir="/emotion"; break;
-            case "Azure Media Motion":
+            case "Azure Media Motion Detector":
                         dir="/motion"; break;
             case "Azure Media Content Moderator":
                         dir="/content"; break;

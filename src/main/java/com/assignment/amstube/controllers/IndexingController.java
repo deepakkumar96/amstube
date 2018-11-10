@@ -53,7 +53,7 @@ public class IndexingController {
     @PostMapping("/analytics_caption")
     public String indexCaptionPost(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
-
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
         String filename = storageService.store(file);
         Indexer indexer;
         IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Indexer");
@@ -76,7 +76,7 @@ public class IndexingController {
     @PostMapping("/analytics_thumbnail")
     public String indexThumbnailPost(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
         String filename = storageService.store(file);
         IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Video Thumbnails");
         return "redirect:/";
@@ -141,8 +141,9 @@ public class IndexingController {
     public String indexFaceePost(@RequestParam("file") MultipartFile file,
                                       RedirectAttributes redirectAttributes) {
 
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
         String filename = storageService.store(file);
-        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Hyperlapse");
+        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Face Detector");
         return "redirect:/";
     }
 
@@ -159,9 +160,9 @@ public class IndexingController {
     @PostMapping("/analytics_motion")
     public String indexMotionPost(@RequestParam("file") MultipartFile file,
                                  RedirectAttributes redirectAttributes) {
-
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
         String filename = storageService.store(file);
-        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Motion");
+        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Motion Detector");
         return "redirect:/";
     }
 
