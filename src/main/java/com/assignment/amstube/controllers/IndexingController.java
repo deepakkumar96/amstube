@@ -166,6 +166,23 @@ public class IndexingController {
     }
 
 
+    @GetMapping("/analytics_content")
+    public String indexContentGet(Model model) throws IOException {
+        model.addAttribute("files", getAllFiles("content"));
+        model.addAttribute("service_url", "analytics_content");
+        return "index/index_files";
+    }
+
+    @PostMapping("/analytics_content")
+    public String indexContentPost(@RequestParam("file") MultipartFile file,
+                                  RedirectAttributes redirectAttributes) {
+        FileSystemStorageService.rootLocation = Paths.get( "uploads");
+        String filename = storageService.store(file);
+        IndexingResult indxRes = IndexingServiceUtil.submitTask(filename, "Azure Media Content Moderator");
+        return "redirect:/";
+    }
+
+
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
