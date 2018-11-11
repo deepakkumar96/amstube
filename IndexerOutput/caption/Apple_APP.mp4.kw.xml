@@ -1,0 +1,19 @@
+<rss version="2.0"  xmlns:mavis="http://www.microsoft.com/dtds/mavis/">
+<channel>
+  <mavis:keywords>real food,days,habits,choices</mavis:keywords>
+  <items>
+    <mavis:keyword Content="real food" Count="1" AvgConfidence="0.85">
+      <mavis:keyworddetail Confidence="0.85" Offset="22.75" />
+    </mavis:keyword>
+    <mavis:keyword Content="days" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="10.5" />
+    </mavis:keyword>
+    <mavis:keyword Content="habits" Count="1" AvgConfidence="0.85">
+      <mavis:keyworddetail Confidence="0.85" Offset="18.03" />
+    </mavis:keyword>
+    <mavis:keyword Content="choices" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="35.8" />
+    </mavis:keyword>
+  </items>
+</channel>
+</rss>

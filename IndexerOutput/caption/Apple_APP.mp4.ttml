@@ -11,11 +11,18 @@
     <layout>
       <region style="Style1" xml:id="CaptionArea" tts:origin="0c 12.6c" tts:extent="32c 2.4c" tts:backgroundColor="rgba(0,0,0,160)" tts:displayAlign="center" tts:padding="0.3c 0.5c" />
     </layout>
-    <recognizability>0.906</recognizability>
+    <recognizability>0.841</recognizability>
   </head>
   <body region="CaptionArea">
     <div>
-      <p begin="00:00:04.610" end="00:00:05.110">Inverse.</p>
+      <p begin="00:00:01.450" end="00:00:05.410">We all eat good thing.</p>
+      <p begin="00:00:05.410" end="00:00:07.840">...good thing foundational.</p>
+      <p begin="00:00:09.790" end="00:00:15.010">And, some days less but being aware of how much</p>
+      <p begin="00:00:16.800" end="00:00:20.470">Helps us understand what habits we need to break.</p>
+      <p begin="00:00:20.470" end="00:00:25.630">A leg up the heating more real food...</p>
+      <p begin="00:00:25.630" end="00:00:28.120">...less fears like...</p>
+      <p begin="00:00:28.120" end="00:00:34.360">A few more like a negotiating doesn't mean...</p>
+      <p begin="00:00:34.360" end="00:00:36.860">It's just about making better choices</p>
 
     </div>
   </body>
