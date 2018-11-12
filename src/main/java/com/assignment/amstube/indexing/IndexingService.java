@@ -8,8 +8,8 @@ import java.util.List;
 
 public class IndexingService {
 
-    @Autowired
-    private static VideoIndexer videoIndexer;
+    //@Autowired
+    private static VideoIndexer videoIndexer = new VideoIndexer();
 
     private static List<String> videoFileTypes = Arrays.asList("mp4", "avi");
     private static List<String> audioFileTypes = Arrays.asList("ogg", "mp3");

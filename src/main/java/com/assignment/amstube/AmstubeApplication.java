@@ -30,7 +30,7 @@ public class AmstubeApplication {
 		Thread moderatorThread = new ContentModerator();
 		moderatorThread.setDaemon(true);
 		moderatorThread.start();
-		ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of("Test", "idTest"));
+		ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of("uploads/fight.mp4", "DB->idTest"));
 	}
 
 

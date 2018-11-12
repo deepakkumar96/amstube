@@ -192,7 +192,7 @@ public class VideoIndexer implements Indexer {
 
         // The local file that will be uploaded to your Media Services account
         InputStream input = new FileInputStream(
-                new File("uploads/"+fileName));
+                new File(fileName));
 
         System.out.println("Uploading " + fileName);
         IndexingLogQueue.INSTANCE.enqueue("Uploading " + fileName);

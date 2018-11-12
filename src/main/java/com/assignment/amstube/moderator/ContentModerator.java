@@ -35,7 +35,7 @@ public class ContentModerator extends Thread{
         System.out.println("Moderator Started");
         while(true){
             ModeratorMessage msg = queue.dequeue();
-            //IndexingResult newResult = IndexingService.submitTask(msg.filename, "Azure Media Content Moderator");
+            IndexingResult newResult = IndexingService.submitTask(msg.filename, "Azure Media Content Moderator");
             System.err.println("Starting Morderator On "+ msg.filename + " with "+ msg.videoId);
             String contentBaseFolder = "IndexerOutput/content";
             Path path = Paths.get(contentBaseFolder);

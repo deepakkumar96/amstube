@@ -92,9 +92,7 @@ public class AzureAssetUploader
             int dotLen = filename.lastIndexOf(".");
             int slashLen = filename.lastIndexOf("/") ;
             System.err.println(dotLen + ", " + slashLen);
-            int len = dotLen <= 0? filename.length() - slashLen: dotLen - slashLen;
-            System.err.println(dotLen + ", " + slashLen + " , " + len);
-            StreamingVideo vid = new StreamingVideo(uploadAsset.getId(), filename.substring(slashLen+1, len));
+            StreamingVideo vid = new StreamingVideo(uploadAsset.getId(), filename.substring(slashLen+1, dotLen));
             try{
                 vid.setType(videoname.substring(videoname.lastIndexOf("."+1)));
             }catch(Exception ex){
