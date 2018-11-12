@@ -39,10 +39,11 @@ import com.microsoft.windowsazure.services.media.models.Task;
 public class AzureAssetUploader
 {
     // Media Services account credentials configuration
-	private static String tenant = "d019bba4-a1af-4540-9b28-260c46d770a5";
-    private static String clientId = "72e751af-b8b2-4a36-a46c-f73fab8f91f9";
-    private static String clientKey = "XIdihi+WmfGQ9SPwnEgfgnjWjao++iYpR/XN9Sb5C9w=";
-    private static String restApiEndpoint = "https://mediatest.restv2.centralindia.media.azure.net/api/";
+    private  static String tenant = "d019bba4-a1af-4540-9b28-260c46d770a5";
+    private  static String clientId = "265814ac-39bd-49e9-883d-7bdfe1d9a13f";
+    private  static String clientKey = "DEnLdIZi6tRz3RzlZwe9S4ibYNe+kK9qzFMCSG4eWE4=";
+    private  static String restApiEndpoint = "https://mediatest.restv2.centralindia.media.azure.net/api/";
+
     private static String fileName = "/home/deepak/Downloads/videoplayback.mp4";
     // Media Services API
     private static MediaContract mediaService;
@@ -52,11 +53,12 @@ public class AzureAssetUploader
     // You can choose to use a custom preset, or any other sample defined preset. 
     // In addition you can use other processors, like Speech Analyzer, or Redactor if desired.
     private static String preferredEncoder = "Media Encoder Standard";
-    private static String encodingPreset = "Adaptive Streaming";
+    private static String encodingPreset = "H264 Multiple Bitrate 720p";//"Adaptive Streaming";
 
-    public static StreamingVideo  upload(String filename)
+    public static StreamingVideo  upload(String filename, String preset)
     {
     	fileName = filename;
+    	encodingPreset = preset;
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 
         try {
@@ -87,12 +89,12 @@ public class AzureAssetUploader
             // Create the Streaming Origin Locator
             String url = getStreamingOriginLocator(encodedAsset);
             String videoname = uploadAsset.getName();
-            int dotLen = videoname.lastIndexOf(".");
-            int slashLen = videoname.lastIndexOf("/") ;
+            int dotLen = filename.lastIndexOf(".");
+            int slashLen = filename.lastIndexOf("/") ;
             System.err.println(dotLen + ", " + slashLen);
-            int len = dotLen <= 0? videoname.length() - slashLen: dotLen - slashLen;
+            int len = dotLen <= 0? filename.length() - slashLen: dotLen - slashLen;
             System.err.println(dotLen + ", " + slashLen + " , " + len);
-            StreamingVideo vid = new StreamingVideo(uploadAsset.getId(), videoname.substring(slashLen+1, len));
+            StreamingVideo vid = new StreamingVideo(uploadAsset.getId(), filename.substring(slashLen+1, len));
             try{
                 vid.setType(videoname.substring(videoname.lastIndexOf("."+1)));
             }catch(Exception ex){

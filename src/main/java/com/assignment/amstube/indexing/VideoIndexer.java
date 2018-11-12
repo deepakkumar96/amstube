@@ -108,7 +108,9 @@ public class VideoIndexer implements Indexer {
             // Done
             System.out.println("Sample completed!");
             IndexingLogQueue.INSTANCE.enqueue("Completed");
-            return IndexingResult.SUCESSFUL;
+            IndexingResult result = IndexingResult.successResult();
+            result.setUploadedPath(filePath);
+            return result;
         } catch (ServiceException se) {
             System.out.println("ServiceException encountered.");
             IndexingLogQueue.INSTANCE.enqueue("Error");

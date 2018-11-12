@@ -3,6 +3,8 @@ package com.assignment.amstube.controllers;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import com.assignment.amstube.moderator.ModeratorMessage;
+import com.assignment.amstube.moderator.ModeratorQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +49,16 @@ public class FileUploadController {
         return "upload";
     }
 
+    @GetMapping("/upload_vid")
+    public String listUploadedFilesVid(Model model) throws IOException {
+
+        //model.addAttribute("files", storageService.loadAll().map(
+        //      path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+        //            "serveFile", path.getFileName().toString()).build().toString())
+        //  .collect(Collectors.toList()));
+
+        return "upload_vid";
+    }
     /*
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
@@ -58,14 +70,20 @@ public class FileUploadController {
     }*/
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    public String handleFileUpload(@RequestParam("preset") String preset, @RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 
         String filename = storageService.store(file);
         //redirectAttributes.addFlashAttribute("message",
          //       "You successfully uploaded " + file.getOriginalFilename() + "!");
-        StreamingVideo vid = AzureAssetUploader.upload(filename);
+        System.err.println(preset + ", " + file);
+        StreamingVideo vid = AzureAssetUploader.upload(filename, preset);
         repository.save(vid);
+
+        //Adding video to moderator queue
+        String newVideoId = vid.getId();
+        ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of(filename, newVideoId));
+
         System.out.println(filename);
         return "redirect:/";
     }
