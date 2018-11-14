@@ -9,6 +9,7 @@ import com.microsoft.azure.servicebus.ExceptionPhase;
 import com.microsoft.azure.servicebus.IMessage;
 import com.microsoft.azure.servicebus.IMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 @Service
+@Configurable
 public class ContentModerator implements IMessageHandler {
 
     ModeratorQueue queue = ModeratorQueue.INSTANCE;
@@ -81,7 +83,8 @@ public class ContentModerator implements IMessageHandler {
                             System.err.println("Uploaded video("+file+") is reviewd by modertor. NO Policy Voilation Found");
 
                     }catch(Exception ex){
-                        System.out.println("Moderator file not found!");
+                        System.out.println("Moderator file not found! ");
+                        ex.printStackTrace();
                     }
                 });
 
@@ -93,9 +96,12 @@ public class ContentModerator implements IMessageHandler {
     }
 
     private void deleteVideo(String videoId) {
+        System.err.println("REPOSITORY: "+ repo);
         Optional<StreamingVideo> video = repo.findById(videoId);
-        if(video.isPresent())
+        if(video.isPresent()) {
+            System.out.println("DELETING "+video);
             repo.delete(video.get());
+        }
         else
             System.err.println("INVALID video id.");
     }

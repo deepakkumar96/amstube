@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @Configuration
-@EnableAsync
+@EnableAsync(proxyTargetClass=true)
 public class AmstubeApplication  {
 
 
@@ -46,6 +46,9 @@ public class AmstubeApplication  {
 	private TopicClient topicClient;
 	@Autowired
 	private SubscriptionClient subscriptionClient;
+
+	@Autowired
+	private ContentModerator moderator;
 
 	public static void main(String[] args) throws InterruptedException, ServiceBusException{
 		SpringApplication.run(AmstubeApplication.class, args);
@@ -60,7 +63,7 @@ public class AmstubeApplication  {
 		System.out.println("RUNNING STARTUP CODE");
 		try {
 			this.receiveSubscriptionMessage();
-			this.sendTopicMessage("ireland.mp4", "video->id");
+			//this.sendTopicMessage("ireland.mp4", "video->id");
 		} catch (ServiceBusException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -99,7 +102,7 @@ public class AmstubeApplication  {
 	}
 
 	private void receiveSubscriptionMessage() throws ServiceBusException, InterruptedException {
-		subscriptionClient.registerMessageHandler(new ContentModerator(), new MessageHandlerOptions());
+		subscriptionClient.registerMessageHandler(moderator, new MessageHandlerOptions());
 
 		//TimeUnit.SECONDS.sleep(5);
 		//subscriptionClient.close();
