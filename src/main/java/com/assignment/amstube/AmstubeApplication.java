@@ -14,23 +14,59 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.assignment.amstube.models.StreamingVideo;
 import com.assignment.amstube.repo.StreamingVideoRepo;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+
+import com.microsoft.azure.servicebus.*;
+import com.microsoft.azure.servicebus.primitives.ServiceBusException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
 
 @SpringBootApplication
 @Configuration
 @EnableAsync
-public class AmstubeApplication {
+public class AmstubeApplication  {
 
 
-	public static void main(String[] args) {
+	@Autowired
+	private QueueClient queueClient;
+	@Autowired
+	private TopicClient topicClient;
+	@Autowired
+	private SubscriptionClient subscriptionClient;
+
+	public static void main(String[] args) throws InterruptedException, ServiceBusException{
 		SpringApplication.run(AmstubeApplication.class, args);
-		Thread moderatorThread = new ContentModerator();
+		/*Thread moderatorThread = new ContentModerator();
 		moderatorThread.setDaemon(true);
 		moderatorThread.start();
-		ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of("uploads/fight.mp4", "DB->idTest"));
+		ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of("ireland.mp4", "DB->idTest"));*/
+	}
+
+	@EventListener(ApplicationReadyEvent.class)
+	public void initAfterStartup(){
+		System.out.println("RUNNING STARTUP CODE");
+		try {
+			this.receiveSubscriptionMessage();
+			this.sendTopicMessage("ireland.mp4", "video->id");
+		} catch (ServiceBusException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 
@@ -51,22 +87,23 @@ public class AmstubeApplication {
 
 	private String connectionString;
 
-	//@Override
-	public void run(String... args) throws Exception {
-		  final StreamingVideo vid = new StreamingVideo();
-		  vid.setTitle("JumanJI");
-		  vid.setId("12345six");
-	      // For this example, remove all of the existing records.
-	      //repository.deleteAll();
 
-	      // Save the User class to the Azure database.
-	      //repository.save(vid);
-	      System.err.println("TEST : " + vid.getId());
-	      // Retrieve the database record for the User class you just saved by ID.
-	      // final User result = repository.findOne(testUser.getId());
-	      final StreamingVideo result = repository.findById(vid.getId()).get();
-	      
-	      // Display the results of the database record retrieval.
-	      System.out.printf("DB : \n\n%s\n\n",result.toString() + " : " + connectionString);
-	   }
+
+
+
+	private void sendTopicMessage(String file, String msg) throws ServiceBusException, InterruptedException {
+		final String messageBody = file + "," + msg;
+		System.out.println("Sending message: " + messageBody);
+		final Message message = new Message(messageBody.getBytes(StandardCharsets.UTF_8));
+		topicClient.send(message);
+	}
+
+	private void receiveSubscriptionMessage() throws ServiceBusException, InterruptedException {
+		subscriptionClient.registerMessageHandler(new ContentModerator(), new MessageHandlerOptions());
+
+		//TimeUnit.SECONDS.sleep(5);
+		//subscriptionClient.close();
+	}
+
+
 }

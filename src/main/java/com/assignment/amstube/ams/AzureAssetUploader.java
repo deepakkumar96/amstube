@@ -39,10 +39,11 @@ import com.microsoft.windowsazure.services.media.models.Task;
 public class AzureAssetUploader
 {
     // Media Services account credentials configuration
-    private  static String tenant = "d019bba4-a1af-4540-9b28-260c46d770a5";
-    private  static String clientId = "265814ac-39bd-49e9-883d-7bdfe1d9a13f";
-    private  static String clientKey = "DEnLdIZi6tRz3RzlZwe9S4ibYNe+kK9qzFMCSG4eWE4=";
-    private  static String restApiEndpoint = "https://mediatest.restv2.centralindia.media.azure.net/api/";
+    // Media Services account credentials configuration
+    private  static  String tenant = "2cb270e2-de00-4b6e-9586-41c025816210";
+    private  static  String clientId = "de8387b2-0a4b-4cfc-b24b-6bffb1b50c57";
+    private  static  String clientKey = "2D5PGa55UMMnxHDwMhDXeVA3IWH63IpwmzppoIURNvI=";
+    private  static  String restApiEndpoint = "https://mediatest4.restv2.eastus.media.azure.net/api/";
 
     private static String fileName = "/home/deepak/Downloads/videoplayback.mp4";
     // Media Services API
@@ -55,9 +56,13 @@ public class AzureAssetUploader
     private static String preferredEncoder = "Media Encoder Standard";
     private static String encodingPreset = "H264 Multiple Bitrate 720p";//"Adaptive Streaming";
 
+    public static void main(String[] args){
+         upload("uploads/AppleWrite.mp4", "Adaptive Streaming");
+    }
+
     public static StreamingVideo  upload(String filename, String preset)
     {
-    	fileName = filename;
+    	fileName = "uploads/"+filename;
     	encodingPreset = preset;
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 

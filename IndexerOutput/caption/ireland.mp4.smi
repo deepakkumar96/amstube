@@ -1,0 +1,24 @@
+<SAMI>
+<HEAD>
+  <STYLE TYPE="text/css">
+    <!--
+    P {}
+    .ENUSCC {Name:'English Captions'; lang: en-US; SAMI_Type: CC;}
+    -->
+  </STYLE>
+  <recognizability>0.860</recognizability>
+</HEAD>
+<BODY>
+<SYNC Start="340">
+<P Class="ENUSCC"><b>It's in the names</b> that </P>
+</SYNC>
+<SYNC Start="1950">
+</SYNC>
+<SYNC Start="5760">
+<P Class="ENUSCC">Wild<b> atlantic</b>...jumping on.</P>
+</SYNC>
+<SYNC Start="10030">
+<P Class="ENUSCC"></P>
+</SYNC>
+</BODY>
+</SAMI>

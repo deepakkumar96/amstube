@@ -1,0 +1,10 @@
+<rss version="2.0"  xmlns:mavis="http://www.microsoft.com/dtds/mavis/">
+<channel>
+  <mavis:keywords>names</mavis:keywords>
+  <items>
+    <mavis:keyword Content="names" Count="1" AvgConfidence="1.00">
+      <mavis:keyworddetail Confidence="1.00" Offset="0.81" />
+    </mavis:keyword>
+  </items>
+</channel>
+</rss>

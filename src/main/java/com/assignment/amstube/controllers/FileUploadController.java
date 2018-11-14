@@ -1,10 +1,16 @@
 package com.assignment.amstube.controllers;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 import com.assignment.amstube.moderator.ModeratorMessage;
 import com.assignment.amstube.moderator.ModeratorQueue;
+import com.microsoft.azure.servicebus.Message;
+import com.microsoft.azure.servicebus.QueueClient;
+import com.microsoft.azure.servicebus.SubscriptionClient;
+import com.microsoft.azure.servicebus.TopicClient;
+import com.microsoft.azure.servicebus.primitives.ServiceBusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -30,21 +36,27 @@ import com.assignment.amstube.storage.*;
 @Controller
 public class FileUploadController {
 
-	
-	@Autowired
-	StreamingVideoRepo repository;
-	
-    private final StorageService storageService = new FileSystemStorageService();;
 
+    @Autowired
+    StreamingVideoRepo repository;
+    @Autowired
+    private QueueClient queueClient;
+    @Autowired
+    private TopicClient topicClient;
+    @Autowired
+    private SubscriptionClient subscriptionClient;
+
+    private final StorageService storageService = new FileSystemStorageService();
+    ;
 
 
     @GetMapping("/upload")
     public String listUploadedFiles(Model model) throws IOException {
 
         //model.addAttribute("files", storageService.loadAll().map(
-          //      path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-            //            "serveFile", path.getFileName().toString()).build().toString())
-              //  .collect(Collectors.toList()));
+        //      path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+        //            "serveFile", path.getFileName().toString()).build().toString())
+        //  .collect(Collectors.toList()));
 
         return "upload";
     }
@@ -71,19 +83,20 @@ public class FileUploadController {
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("preset") String preset, @RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes) {
 
         String filename = storageService.store(file);
         //redirectAttributes.addFlashAttribute("message",
-         //       "You successfully uploaded " + file.getOriginalFilename() + "!");
+        //       "You successfully uploaded " + file.getOriginalFilename() + "!");
         System.err.println(preset + ", " + file);
         StreamingVideo vid = AzureAssetUploader.upload(filename, preset);
         repository.save(vid);
 
         //Adding video to moderator queue
         String newVideoId = vid.getId();
-        ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of(filename, newVideoId));
-
+        System.out.println("Adding to moderator queue: " + filename + " - " + newVideoId);
+        //ModeratorQueue.INSTANCE.enqueue(ModeratorMessage.of(filename, newVideoId));
+        sendTopicMessage(filename, newVideoId);
         System.out.println(filename);
         return "redirect:/";
     }
@@ -93,4 +106,16 @@ public class FileUploadController {
         return ResponseEntity.notFound().build();
     }
 
+    private void sendTopicMessage(String file, String msg)  {
+        final String messageBody = file + "," + msg;
+        System.out.println("Sending message: " + messageBody);
+        final Message message = new Message(messageBody.getBytes(StandardCharsets.UTF_8));
+        try {
+            topicClient.send(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServiceBusException e) {
+            e.printStackTrace();
+        }
+    }
 }

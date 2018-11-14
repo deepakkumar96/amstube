@@ -26,10 +26,10 @@ public class VideoIndexer implements Indexer {
     private static MediaContract mediaService;
 
     // Media Services account credentials configuration
-    private  String tenant = "d019bba4-a1af-4540-9b28-260c46d770a5";
-    private  String clientId = "265814ac-39bd-49e9-883d-7bdfe1d9a13f";
-    private  String clientKey = "DEnLdIZi6tRz3RzlZwe9S4ibYNe+kK9qzFMCSG4eWE4=";
-    private  String restApiEndpoint = "https://mediatest.restv2.centralindia.media.azure.net/api/";
+    private   String tenant = "2cb270e2-de00-4b6e-9586-41c025816210";
+    private   String clientId = "de8387b2-0a4b-4cfc-b24b-6bffb1b50c57";
+    private   String clientKey = "2D5PGa55UMMnxHDwMhDXeVA3IWH63IpwmzppoIURNvI=";
+    private   String restApiEndpoint = "https://mediatest4.restv2.eastus.media.azure.net/api/";
     // Input file
     private  String mediaFileName = "videoplayback2.mp4";
 
@@ -47,7 +47,7 @@ public class VideoIndexer implements Indexer {
     private  String destinationPath = "IndexerOutput";
 
     public static void main(String...args){
-        new VideoIndexer().index("AppleWrite.mp4", "Azure Media Indexer","");
+        new VideoIndexer().index("AppleWrite.mp4", "Azure Media Hyperlapse","");
     }
 
     @Override
@@ -192,7 +192,7 @@ public class VideoIndexer implements Indexer {
 
         // The local file that will be uploaded to your Media Services account
         InputStream input = new FileInputStream(
-                new File(fileName));
+                new File("uploads/"+fileName));
 
         System.out.println("Uploading " + fileName);
         IndexingLogQueue.INSTANCE.enqueue("Uploading " + fileName);
