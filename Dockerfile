@@ -6,13 +6,17 @@ COPY . /app
 
 WORKDIR /app
 
-CMD ["git pull"]
+RUN git pull
+
 
 #Compiling & Building App
 
 FROM maven:3.5-jdk-8-alpine
 
-CMD ["mvn package"]
+RUN mvn package
+
+
+#Running App
 
 FROM openjdk:8-jdk-alpine
 
