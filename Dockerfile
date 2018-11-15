@@ -2,13 +2,17 @@
 
 FROM alpine/git:1.0.4
 
-ENTRYPOINT ["git pull"]
+COPY . /app
+
+WORKDIR /app
+
+CMD ["git pull"]
 
 #Compiling & Building App
 
 FROM maven:3.5-jdk-8-alpine
 
-ENTRYPOINT ["mvn package"]
+CMD ["mvn package"]
 
 FROM openjdk:8-jdk-alpine
 
