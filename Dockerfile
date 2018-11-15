@@ -8,7 +8,7 @@ ENTRYPOINT ["git pull"]
 
 FROM maven:3.5-jdk-8-alpine
 
-RUN mvn package
+ENTRYPOINT ["mvn package"]
 
 FROM openjdk:8-jdk-alpine
 
