@@ -2,7 +2,7 @@
 
 FROM alpine/git:1.0.4
 
-RUN git pull
+ENTRYPOINT ["git pull"]
 
 #Compiling & Building App
 
