@@ -13,6 +13,8 @@ RUN git pull
 
 FROM maven:3.5-jdk-8-alpine
 
+WORKDIR /app
+
 RUN mvn package
 
 
@@ -21,6 +23,8 @@ RUN mvn package
 FROM openjdk:8-jdk-alpine
 
 EXPOSE 8080
+
+WORKDIR /app
 
 ADD target/media-app.jar media-app.jar
 
