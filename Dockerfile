@@ -11,11 +11,11 @@ RUN git pull
 
 #Compiling & Building App
 
-FROM maven:3.5-jdk-8-alpine
+#FROM maven:3.5-jdk-8-alpine
 
-WORKDIR /app
+#WORKDIR /app
 
-RUN mvn package
+#RUN mvn package
 
 
 #Running App
