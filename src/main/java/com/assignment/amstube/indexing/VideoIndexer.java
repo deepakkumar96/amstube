@@ -1,5 +1,6 @@
 package com.assignment.amstube.indexing;
 
+import com.assignment.amstube.models.LogQueue;
 import com.microsoft.windowsazure.Configuration;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.MediaConfiguration;
@@ -52,6 +53,7 @@ public class VideoIndexer implements Indexer {
 
     @Override
     public IndexingResult index(String filePath, String service, String persistPath) {
+        LogQueue.INSTANCE.enqueue("Running Indexing Service: "+service);
         System.err.println("PATH: "+filePath);
         mediaFileName = filePath;
         indexerProcessorName = service;

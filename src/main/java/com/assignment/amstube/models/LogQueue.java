@@ -5,10 +5,26 @@
  */
 package com.assignment.amstube.models;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 /**
  *
  * @author deepak
  */
-public class LogQueue {
-    
+
+public enum LogQueue {
+    INSTANCE;
+    private BlockingQueue<String> queue = new ArrayBlockingQueue<>(100);
+
+    public String dequeue(){
+        if(queue.isEmpty())
+            return "All Task Completed!";
+        else return queue.poll();
+    }
+
+    public void enqueue(String s){
+        queue.offer(s);
+    }
 }
+

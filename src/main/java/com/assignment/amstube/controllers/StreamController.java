@@ -1,5 +1,6 @@
 package com.assignment.amstube.controllers;
 
+import com.assignment.amstube.models.LogQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,9 @@ public class StreamController {
     @GetMapping("/")
     public String home(ModelMap model) {
         model.addAttribute("videos", repository.findAll());
-        
+        String log = LogQueue.INSTANCE.dequeue();
+        System.out.println("LOG: "+log);
+        model.addAttribute("log", log);
         return "index";
     }
 

@@ -7,6 +7,8 @@ import java.util.EnumSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.assignment.amstube.indexing.IndexingLogQueue;
+import com.assignment.amstube.models.LogQueue;
 import com.assignment.amstube.models.StreamingVideo;
 import com.microsoft.windowsazure.Configuration;
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -62,6 +64,7 @@ public class AzureAssetUploader
 
     public static StreamingVideo  upload(String filename, String preset)
     {
+        LogQueue.INSTANCE.enqueue("Uploading Video To Azure!");
     	fileName = "uploads/"+filename;
     	encodingPreset = preset;
         ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -86,11 +89,12 @@ public class AzureAssetUploader
             // Upload a local file to an Asset
             AssetInfo uploadAsset = uploadFileAndCreateAsset(filename, fileName);
             System.out.println("Uploaded Asset Id: " + uploadAsset.getId());
+            IndexingLogQueue.INSTANCE.enqueue("Uploaded Asset Id: " + uploadAsset.getId());
 
             // Transform the Asset
             AssetInfo encodedAsset = encode(uploadAsset);
             System.out.println("Encoded Asset Id: " + encodedAsset.getId());
-
+            IndexingLogQueue.INSTANCE.enqueue("Encoded Asset Id: " + encodedAsset.getId());
             // Create the Streaming Origin Locator
             String url = getStreamingOriginLocator(encodedAsset);
             String videoname = uploadAsset.getName();
@@ -108,6 +112,8 @@ public class AzureAssetUploader
             
             System.out.println("Origin Locator URL: " + url);
             System.out.println("Sample completed!");
+
+            IndexingLogQueue.INSTANCE.enqueue("Sample completed!");
             return vid;
 
         } catch (ServiceException se) {
@@ -116,6 +122,7 @@ public class AzureAssetUploader
             return null;
         } catch (Exception e) {
             System.out.println("Exception encountered.");
+            IndexingLogQueue.INSTANCE.enqueue("Exception encountered.");
             System.out.println(e.toString());
             return null;
         } finally {
@@ -135,7 +142,7 @@ public class AzureAssetUploader
         // Create an Asset
         resultAsset = mediaService.create(Asset.create().setName(assetName).setAlternateId("altId"));
         System.out.println("Created Asset " + fileName);
-
+        IndexingLogQueue.INSTANCE.enqueue("Created Asset " + fileName);
         // Create an AccessPolicy that provides Write access for 15 minutes
         uploadAccessPolicy = mediaService
             .create(AccessPolicy.create("uploadAccessPolicy", 15.0, EnumSet.of(AccessPolicyPermission.WRITE)));
@@ -153,7 +160,7 @@ public class AzureAssetUploader
         InputStream input = new FileInputStream(file);
 
         System.out.println("Uploading " + fileName);
-
+        IndexingLogQueue.INSTANCE.enqueue("Uploading " + fileName);
         // Upload the local file to the media asset
         uploader.createBlockBlob(file.getName(), input);
 
@@ -202,6 +209,7 @@ public class AzureAssetUploader
 
         String jobId = job.getId();
         System.out.println("Created Job with Id: " + jobId);
+        IndexingLogQueue.INSTANCE.enqueue("Created Job with Id: " + jobId);
 
         // Check to see if the Job has completed
         checkJobStatus(jobId);
@@ -250,7 +258,7 @@ public class AzureAssetUploader
             // Query the updated Job state
             jobState = mediaService.get(Job.get(jobId)).getState();
             System.out.println("Job state: " + jobState);
-
+            IndexingLogQueue.INSTANCE.enqueue("Job state: " + jobState);
             if (jobState == JobState.Finished || jobState == JobState.Canceled || jobState == JobState.Error) {
                 done = true;
             }

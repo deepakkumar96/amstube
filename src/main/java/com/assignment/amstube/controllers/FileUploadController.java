@@ -2,8 +2,10 @@ package com.assignment.amstube.controllers;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import com.assignment.amstube.models.LogQueue;
 import com.assignment.amstube.moderator.ModeratorMessage;
 import com.assignment.amstube.moderator.ModeratorQueue;
 import com.microsoft.azure.servicebus.Message;
@@ -49,6 +51,21 @@ public class FileUploadController {
     private final StorageService storageService = new FileSystemStorageService();
     ;
 
+
+
+    @GetMapping("/search")
+    public String searchVideo(@RequestParam("search") String searchText, Model model){
+        List<StreamingVideo> videos;
+        model.addAttribute("videos", repository.findAll());
+        return "search";
+    }
+
+
+    @GetMapping("/log")
+    public String serverLog(Model model){
+        model.addAttribute("log", LogQueue.INSTANCE.dequeue());
+        return "log";
+    }
 
     @GetMapping("/upload")
     public String listUploadedFiles(Model model) throws IOException {

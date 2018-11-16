@@ -37,12 +37,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html"><h1><img src="images/logo.png" alt="" /></h1></a>
+          <a class="navbar-brand" href="/"><h1><img src="images/logo.png" alt="" /></h1></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 			<div class="top-search">
 				<form class="navbar-form navbar-right">
-					<input type="text" class="form-control" placeholder="Search...">
+					<input type="text" class="form-control" placeholder="Search..." th:value="${log}">
 					<input type="submit" value=" ">
 				</form>
 			</div>
@@ -351,7 +351,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 						</div>
 						<div class="resent-grid-info recommended-grid-info">
-                                                    <h3><a href="single.html" class="title title-info"><span th:text="${video.title}"> </span></a></h3>
+                                                    <h3><a th:href="@{'/play?id=' + ${video.id}}" class="title title-info"><span th:text="${video.title}"> </span></a></h3>
 							<ul>
 								<li><p class="author author-info"><a href="#" class="author">John Maniya</a></p></li>
 								<li class="right-list"><p class="views views-info">2,114,200 views</p></li>
