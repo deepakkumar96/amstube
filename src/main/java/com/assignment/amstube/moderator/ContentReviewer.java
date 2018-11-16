@@ -1,13 +1,18 @@
 package com.assignment.amstube.moderator;
 
+import com.assignment.amstube.indexing.IndexingLogQueue;
+
 public class ContentReviewer {
 
     public static boolean voilateContatePolicy(String moderatorContent){
+        IndexingLogQueue.INSTANCE.enqueue("Reviewer Started");
         double reviewRecomendedTrue = countOccurance(moderatorContent, "true");
         double reviewRecomendedFalse = countOccurance(moderatorContent, "false");
 
         System.err.println("Moderator Ratio : "+((double)(reviewRecomendedTrue/reviewRecomendedFalse)*100.0)+
                             "   Count : "+reviewRecomendedFalse + ", " + reviewRecomendedTrue);
+        IndexingLogQueue.INSTANCE.enqueue("Moderator Ratio : "+((double)(reviewRecomendedTrue/reviewRecomendedFalse)*100.0)+
+                "   Count : "+reviewRecomendedFalse + ", " + reviewRecomendedTrue);
 
         if(((double)(reviewRecomendedTrue/reviewRecomendedFalse)*100.0) >= 10)
             return true;

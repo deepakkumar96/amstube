@@ -1,5 +1,6 @@
 package com.assignment.amstube.moderator;
 
+import com.assignment.amstube.indexing.IndexingLogQueue;
 import com.assignment.amstube.indexing.IndexingResult;
 import com.assignment.amstube.indexing.IndexingService;
 import com.assignment.amstube.indexing.VideoIndexer;
@@ -59,6 +60,8 @@ public class ContentModerator implements IMessageHandler {
     @Async
     public CompletableFuture<Void>  process(ModeratorMessage msg) throws InterruptedException {
         System.out.println("Moderator Started");
+        IndexingLogQueue.INSTANCE.enqueue("Moderator Started");
+
         //while(true){
             IndexingResult newResult = IndexingService.submitTask(msg.filename, "Azure Media Content Moderator");
             System.err.println("Starting Morderator On "+ msg.filename + " with "+ msg.videoId);
@@ -78,9 +81,13 @@ public class ContentModerator implements IMessageHandler {
                         if(ContentReviewer.voilateContatePolicy(moderatorContent)){
                             deleteVideo(msg.videoId);
                             System.err.println("Video "+file+" is deleted by moderator. Due to content policy voilation");
+                            IndexingLogQueue.INSTANCE.enqueue("Video "+file+" is deleted by moderator. Due to content policy voilation");
                         }
-                        else
-                            System.err.println("Uploaded video("+file+") is reviewd by modertor. NO Policy Voilation Found");
+                        else {
+                            System.err.println("Uploaded video(" + file + ") is reviewd by modertor. NO Policy Voilation Found");
+                            IndexingLogQueue.INSTANCE.enqueue("Uploaded video(" + file + ") is reviewd by modertor. NO Policy Voilation Found");
+
+                        }
 
                     }catch(Exception ex){
                         System.out.println("Moderator file not found! ");

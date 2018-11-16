@@ -340,7 +340,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h3>Server Log</h3>
             </div>
             <div >
-                <h2 th:text="$(log)"></h2>
+                <h2 th:text="${log}" id="job-status"></h2>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -1435,6 +1435,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+		(function doPoll(){
+
+			$.get('/get_indexing_logs', function(data) {
+				//if(data != "Working...){
+					document.getElementById('job-status').innerHTML += "<br> >>  Job Status : "+data;
+					console.log(data);
+
+				//if(data != "Completed"){
+					setTimeout(doPoll, 5000);
+				//}
+			});
+		})();
+
+
+	</script>
 <script src="js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 </body>

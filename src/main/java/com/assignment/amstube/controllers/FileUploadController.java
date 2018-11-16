@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.assignment.amstube.indexing.IndexingLogQueue;
 import com.assignment.amstube.models.LogQueue;
 import com.assignment.amstube.moderator.ModeratorMessage;
 import com.assignment.amstube.moderator.ModeratorQueue;
@@ -63,7 +64,7 @@ public class FileUploadController {
 
     @GetMapping("/log")
     public String serverLog(Model model){
-        model.addAttribute("log", LogQueue.INSTANCE.dequeue());
+        model.addAttribute("log", IndexingLogQueue.INSTANCE.dequeue());
         return "log";
     }
 
